@@ -1,69 +1,33 @@
 package org.example.task2;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
-public class Cart {
+class Cart {
+    private ArrayList<Item> items = new ArrayList<>();
 
-    public Item[] contents;
-    int index;
-
-    Cart(Item[] _contents) {
-        this.contents = _contents;
+    public void addItem(Item item) {
+        this.items.add(item);
     }
 
-    public void removeById(int itemIndex) {
+    public void removeItem(Item item) {
+        this.items.remove(item);
+    }
 
-        if (index == 0)
-            return;
-
-        int foundItemIndex = findItemInArray(contents[itemIndex]);
-
-        if (foundItemIndex == -1)
-            return;
-
-        if (foundItemIndex == index - 1) {
-            contents[index - 1] = null;
-            index--;
-            return;
+    public double getTotalPrice() {
+        double total = 0;
+        for (Item item : this.items) {
+            total += item.getPrice();
         }
-
-        shiftArray(foundItemIndex);
+        return total;
     }
 
-    public void shiftArray(int itemIndex) {
-        for (int i = itemIndex; i < index - 1; i++) {
-            contents[i] = contents[i + 1];
+    public void showItems() {
+        for (Item item : this.items) {
+            System.out.println(item);
         }
-        contents[index-1] = null;
-        index--;
     }
 
-    public int findItemInArray(Item item) {
-        for (int i = 0; i < index; i++) {
-            if (contents[i].id == item.id) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    void add(Item item) {
-        if (isCartFull())
-            return;
-
-        contents[index] = item;
-        index++;
-    }
-
-    public boolean isCartFull() {
-        return index == contents.length;
-    }
-
-    @Override
-    public String toString() {
-        return "Cart{" +
-                "contents=" + Arrays.toString(contents) +
-                '}' + "\n";
+    public ArrayList<Item> getItems() {
+        return this.items;
     }
 }
